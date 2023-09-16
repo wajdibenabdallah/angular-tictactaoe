@@ -1,0 +1,19 @@
+$case-default-color: #b6bbc069;
+
+.card {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+}
+.case {
+  cursor: pointer;
+  background-color: $case-default-color;
+  border: solid 1px;
+  font-size: 150px;
+}
+
+.player {
+  width: 200px;
+  margin: auto;
+  margin-bottom: 10px;
+}
