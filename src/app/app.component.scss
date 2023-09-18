@@ -16,4 +16,10 @@ $case-default-color: #b6bbc069;
   width: 200px;
   margin: auto;
   margin-bottom: 10px;
+  text-align: center;
+}
+
+.line {
+  position: static;
+  z-index: 99999;
 }

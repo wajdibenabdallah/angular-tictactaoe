@@ -1,16 +1,20 @@
 <mat-card class="player">
-  <mat-card-content>{{ Player | name }}</mat-card-content>
+  <mat-card-content>{{ player | name }}</mat-card-content>
   <button mat-raised-button color="primary" (click)="reset()">Reset</button>
+  <button mat-raised-button (click)="action()">Action</button>
 </mat-card>
+
 <mat-card class="card">
+  <div class="line" [@line]="anime ? 'show' : 'hide'"></div>
   <mat-card-content>
     <mat-grid-list cols="3">
       <mat-grid-tile
-        #case
-        class="case"
-        *ngFor="let i of Arr(num).fill(1); index as index"
         appCase
+        class="case"
+        *ngFor="let i of Arr(level).fill(1); index as index"
         [index]="index"
+        [player]="player"
+        (caseClick)="caseClick(index)"
       >
       </mat-grid-tile>
     </mat-grid-list>

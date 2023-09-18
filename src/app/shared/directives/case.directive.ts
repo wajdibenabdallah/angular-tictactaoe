@@ -1,35 +1,24 @@
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
-  OnInit,
+  Output,
   Renderer2,
 } from '@angular/core';
 import { Players } from '../players';
-import { TicTacToeService } from '../services/tictactoe.service';
 @Directive({
   selector: '[appCase]',
 })
-export class CaseDirective implements OnInit {
+export class CaseDirective {
   value!: string;
   case: boolean = false;
+  stats: Array<Players> = [];
   @Input('index') index!: number;
-  constructor(
-    private renderer: Renderer2,
-    private el: ElementRef,
-    private _tictactoe: TicTacToeService
-  ) {}
-  ngOnInit(): void {
-    this._tictactoe.status().subscribe((value) => {
-      this.value = value;
-    });
-    console.log('index', this.index);
-  }
-
-  isPlayed(): Boolean {
-    return this.case;
-  }
+  @Input('player') player!: Players;
+  @Output('caseClick') caseClick = new EventEmitter();
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   @HostListener('click')
   onClick() {
@@ -37,15 +26,18 @@ export class CaseDirective implements OnInit {
       this.renderer.setProperty(
         this.el.nativeElement.children[0],
         'innerHTML',
-        this.value
+        this.player
       );
       this.case = true;
-      this._tictactoe.nextTic(this.value);
+      this.caseClick.emit();
     }
   }
 
+  isPlayed(): Boolean {
+    return this.case;
+  }
+
   reset(): void {
-    console.log('xxxxxxxxx')
     this.case = false;
     this.renderer.setProperty(
       this.el.nativeElement.children[0],
