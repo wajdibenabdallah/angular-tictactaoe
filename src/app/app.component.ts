@@ -18,19 +18,22 @@ const LEVEL = 9;
   animations: [
     trigger('line', [
       state(
-        'show',
+        'hide',
         style({
-          'border-bottom': '0.3rem solid #000',
-          '-webkit-transform':
-            'translate(0rem, 15rem) rotate(45deg) scale(1,1)',
-          // position: 'absolute',
-          // 'transform': 'rotate(45deg)',
-          // top: '150px',
-          // right: '70px',
+          width: '1rem',
+          margin: '2rem 18rem',
+          transform: 'rotate(45deg)',
         })
       ),
-      transition('show => hide', [animate('0.5s')]),
-      transition('hide => show', [animate('0.5s')]),
+      state(
+        'show',
+        style({
+          width: '35rem',
+          margin: '16rem 15rem',
+          transform: 'rotate(45deg)',
+        })
+      ),
+      transition('hide => show', [animate('0.2s')]),
     ]),
   ],
 })
@@ -65,7 +68,6 @@ export class AppComponent implements OnInit {
   }
 
   action(): void {
-    console.log('action');
     this.anime = !this.anime;
   }
 

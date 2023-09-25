@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CaseDirective } from './shared/directives/case.directive';
 import { NamePipe } from './shared/pipes/name.pipe';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [AppComponent, CaseDirective, NamePipe],
@@ -18,7 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     MatCardModule,
     MatGridListModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
