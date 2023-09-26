@@ -9,6 +9,7 @@ import { Players } from '../players';
 export class TicTacToeService {
   turnOf$ = new BehaviorSubject(Players.PLAYER_X);
   caseValues$ = new BehaviorSubject<Array<Players>>([]);
+  winnerCase$ = new Subject();
 
   winnerCases: Array<string> = [
     '012',
@@ -31,6 +32,10 @@ export class TicTacToeService {
     return this.caseValues$.asObservable();
   }
 
+  getWinnerCase(): Observable<any> {
+    return this.winnerCase$.asObservable();
+  }
+
   nextTic(player: Players, caseIndex: number, stats: Array<Players>): void {
     stats[caseIndex] = player;
     this.caseValues$.next(stats);
@@ -51,7 +56,7 @@ export class TicTacToeService {
     if (played.length > 2) {
       const line = this.includeWinner(played);
       if (line) {
-        console.log('The winner', player, line);
+        this.winnerCase$.next(line);
       }
     }
   }

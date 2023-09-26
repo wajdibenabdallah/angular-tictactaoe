@@ -2,13 +2,7 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TicTacToeService } from './shared/services/tictactoe.service';
 import { CaseDirective } from './shared/directives/case.directive';
 import { Players } from './shared/players';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { trigger } from '@angular/animations';
 import {
   _012,
   _036,
@@ -84,16 +78,23 @@ export class AppComponent implements OnInit {
 
   caseClick(index: number): void {
     this._tictactoe.nextTic(this.player, index, this.stats);
+    this._tictactoe.getWinnerCase().subscribe((line) => {
+      if (line) {
+        console.log(line);
+        this.drawLine(line);
+      }
+    });
   }
 
-  action(): void {
+  drawLine(line: string): void {
     this.animation = !this.animation;
-    this.start = 'start' + this.line;
-    this.end = 'end' + this.line;
+    this.start = 'start' + line;
+    this.end = 'end' + line;
   }
 
   reset(): void {
     this._tictactoe.reset();
+    this.animation = !this.animation;
     this.cases.forEach((element) => {
       element.reset();
     });
