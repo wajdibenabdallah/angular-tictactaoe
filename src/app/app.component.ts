@@ -9,6 +9,16 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import {
+  _012,
+  _036,
+  _048,
+  _147,
+  _246,
+  _258,
+  _345,
+  _678,
+} from './shared/constants/animations';
 const LEVEL = 9;
 
 @Component({
@@ -17,30 +27,39 @@ const LEVEL = 9;
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('line', [
-      state(
-        'hide',
-        style({
-          width: '1rem',
-          margin: '2rem 18rem',
-          transform: 'rotate(45deg)',
-        })
-      ),
-      state(
-        'show',
-        style({
-          width: '35rem',
-          margin: '16rem 15rem',
-          transform: 'rotate(45deg)',
-        })
-      ),
-      transition('hide => show', [animate('0.2s')]),
+      _012.from,
+      _012.to,
+      _012.transition,
+      _345.from,
+      _345.to,
+      _345.transition,
+      _678.from,
+      _678.to,
+      _678.transition,
+      _036.from,
+      _036.to,
+      _036.transition,
+      _147.from,
+      _147.to,
+      _147.transition,
+      _258.from,
+      _258.to,
+      _258.transition,
+      _048.from,
+      _048.to,
+      _048.transition,
+      _246.from,
+      _246.to,
+      _246.transition,
     ]),
   ],
 })
 export class AppComponent implements OnInit {
   @ViewChildren(CaseDirective) cases!: QueryList<CaseDirective>;
-  anime: boolean = false;
-
+  animation!: boolean;
+  start!: string;
+  end!: string;
+  line = '246';
   Arr = Array;
   level: number = LEVEL;
   player!: Players;
@@ -68,7 +87,9 @@ export class AppComponent implements OnInit {
   }
 
   action(): void {
-    this.anime = !this.anime;
+    this.animation = !this.animation;
+    this.start = 'start' + this.line;
+    this.end = 'end' + this.line;
   }
 
   reset(): void {

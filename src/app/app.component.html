@@ -5,9 +5,9 @@
 </mat-card>
 
 <div>
-  <div class="line" [@line]="anime ? 'show' : 'hide'"></div>
   <mat-card class="card">
     <mat-card-content>
+      <div class="line" [@line]="animation ? start : end"></div>
       <mat-grid-list cols="3">
         <mat-grid-tile
           appCase
