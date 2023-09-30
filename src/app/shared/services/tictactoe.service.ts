@@ -1,52 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Players } from '../players';
+import { Players } from '../enums/players';
+import { winnerCases } from '../constants/game';
 
-// Provide the service in the root : 'any' => provide a unique instance for every module
+// @info 'root' Provide the service in the root / OR 'any' => provide a unique instance for every module
 @Injectable({
   providedIn: 'root',
 })
 export class TicTacToeService {
-  turnOf$ = new BehaviorSubject(Players.PLAYER_X);
-  caseValues$ = new BehaviorSubject<Array<Players>>([]);
+  turnOf$ = new BehaviorSubject<Players>(Players.PLAYER_X);
   winnerCase$ = new Subject();
 
-  winnerCases: Array<string> = [
-    '012',
-    '345',
-    '678',
-    '036',
-    '147',
-    '258',
-    '048',
-    '246',
-  ];
+  private caseValues: Players[] = [];
 
   constructor() {}
 
-  turnOf(): Observable<Players> {
+  getTurnOf(): Observable<Players> {
     return this.turnOf$.asObservable();
   }
 
-  getStats(): Observable<Array<Players>> {
-    return this.caseValues$.asObservable();
+  setTurnOf(player: Players): void {
+    if (player === Players.PLAYER_O) {
+      this.turnOf$.next(Players.PLAYER_X);
+    }
+    if (player === Players.PLAYER_X) {
+      this.turnOf$.next(Players.PLAYER_O);
+    }
+  }
+
+  getStats(): Array<Players> {
+    return this.caseValues;
   }
 
   getWinnerCase(): Observable<any> {
     return this.winnerCase$.asObservable();
   }
 
-  nextTic(player: Players, caseIndex: number, stats: Array<Players>): void {
-    stats[caseIndex] = player;
-    this.caseValues$.next(stats);
-    this.check(player, stats);
-    player === Players.PLAYER_O
-      ? this.turnOf$.next(Players.PLAYER_X)
-      : this.turnOf$.next(Players.PLAYER_O);
+  nextTic(player: Players, caseIndex: number): void {
+    this.caseValues[caseIndex] = player;
+    this.check(player);
+    this.setTurnOf(player);
   }
 
-  check(player: Players, stats: Array<Players>): void {
-    const played = stats
+  check(player: Players): void {
+    const played = this.caseValues
       .map((_case, index) => {
         if (_case === player) return index;
         else return null;
@@ -62,7 +59,7 @@ export class TicTacToeService {
   }
 
   includeWinner(played: string): boolean | string {
-    for (const winnerCase of this.winnerCases) {
+    for (const winnerCase of winnerCases) {
       if (played.includes(winnerCase)) {
         return winnerCase;
       }
@@ -71,7 +68,8 @@ export class TicTacToeService {
   }
 
   reset(): void {
-    this.caseValues$.next([]);
+    this.caseValues = [];
     this.turnOf$.next(Players.PLAYER_X);
+    this.winnerCase$.next(null);
   }
 }

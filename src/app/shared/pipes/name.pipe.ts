@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Players } from '../players';
+import { Players } from '../enums/players';
 
 @Pipe({
   name: 'name',

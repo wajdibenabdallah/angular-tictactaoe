@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TicTacToeService } from './shared/services/tictactoe.service';
 import { CaseDirective } from './shared/directives/case.directive';
-import { Players } from './shared/players';
+import { Players } from './shared/enums/players';
 import { trigger } from '@angular/animations';
 import {
   _012,
@@ -13,7 +13,7 @@ import {
   _345,
   _678,
 } from './shared/constants/animations';
-const LEVEL = 9;
+import { LEVEL } from './shared/constants/game';
 
 @Component({
   selector: 'app-root',
@@ -53,48 +53,42 @@ export class AppComponent implements OnInit {
   animation!: boolean;
   start!: string;
   end!: string;
-  line = '246';
-  Arr = Array;
-  level: number = LEVEL;
   player!: Players;
-  stats: Array<Players> = [];
-  winnerCases: Array<string> = [
-    '012',
-    '345',
-    '678',
-    '036',
-    '147',
-    '258',
-    '048',
-    '246',
-  ];
   constructor(private _tictactoe: TicTacToeService) {}
   ngOnInit(): void {
-    this._tictactoe.turnOf().subscribe((value) => (this.player = value));
-    this._tictactoe.getStats().subscribe((value) => {
-      this.stats = value;
-    });
+    this._tictactoe.getTurnOf().subscribe((player) => (this.player = player));
+  }
+
+  level(): any {
+    return new Array(LEVEL);
   }
 
   caseClick(index: number): void {
-    this._tictactoe.nextTic(this.player, index, this.stats);
+    this._tictactoe.nextTic(this.player, index);
     this._tictactoe.getWinnerCase().subscribe((line) => {
       if (line) {
-        console.log(line);
         this.drawLine(line);
+        this.endOfGame();
       }
     });
   }
 
+  endOfGame() {
+    this.cases.forEach((element) => {
+      element.endOfGame();
+    });
+  }
+
   drawLine(line: string): void {
-    this.animation = !this.animation;
-    this.start = 'start' + line;
-    this.end = 'end' + line;
+    console.log('drawLine', line, this.animation);
+    // this.animation = !this.animation;
+    // this.start = 'start' + line;
+    // this.end = 'end' + line;
   }
 
   reset(): void {
     this._tictactoe.reset();
-    this.animation = !this.animation;
+    this.animation = false;
     this.cases.forEach((element) => {
       element.reset();
     });

@@ -11,7 +11,7 @@
         <mat-grid-tile
           appCase
           class="case"
-          *ngFor="let i of Arr(level).fill(1); index as index"
+          *ngFor="let i of level(); index as index"
           [index]="index"
           [player]="player"
           (caseClick)="caseClick(index)"

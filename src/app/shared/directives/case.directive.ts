@@ -7,14 +7,13 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Players } from '../players';
+import { Players } from '../enums/players';
 @Directive({
   selector: '[appCase]',
 })
 export class CaseDirective {
-  value!: string;
+  value!: Players;
   case: boolean = false;
-  stats: Array<Players> = [];
   @Input('index') index!: number;
   @Input('player') player!: Players;
   @Output('caseClick') caseClick = new EventEmitter();
@@ -35,6 +34,10 @@ export class CaseDirective {
 
   isPlayed(): Boolean {
     return this.case;
+  }
+
+  endOfGame(): void {
+    this.case = true;
   }
 
   reset(): void {
