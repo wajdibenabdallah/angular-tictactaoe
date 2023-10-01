@@ -12,9 +12,7 @@ import { Players } from '../enums/players';
   selector: '[appCase]',
 })
 export class CaseDirective {
-  value!: Players;
   case: boolean = false;
-  @Input('index') index!: number;
   @Input('player') player!: Players;
   @Output('caseClick') caseClick = new EventEmitter();
   constructor(private renderer: Renderer2, private el: ElementRef) {}
@@ -37,6 +35,7 @@ export class CaseDirective {
   }
 
   endOfGame(): void {
+    console.log('endOfGame');
     this.case = true;
   }
 
@@ -45,7 +44,7 @@ export class CaseDirective {
     this.renderer.setProperty(
       this.el.nativeElement.children[0],
       'innerHTML',
-      ''
+      null
     );
   }
 }

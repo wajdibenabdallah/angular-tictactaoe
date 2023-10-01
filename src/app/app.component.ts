@@ -1,4 +1,12 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+} from '@angular/core';
 import { TicTacToeService } from './shared/services/tictactoe.service';
 import { CaseDirective } from './shared/directives/case.directive';
 import { Players } from './shared/enums/players';
@@ -14,6 +22,7 @@ import {
   _678,
 } from './shared/constants/animations';
 import { LEVEL } from './shared/constants/game';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -48,15 +57,33 @@ import { LEVEL } from './shared/constants/game';
     ]),
   ],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChildren(CaseDirective) cases!: QueryList<CaseDirective>;
   animation!: boolean;
   start!: string;
   end!: string;
   player!: Players;
+  playerSubsciption!: Subscription;
+  winnerCaseSubsciption!: Subscription;
+
   constructor(private _tictactoe: TicTacToeService) {}
+  ngOnDestroy(): void {
+    this.playerSubsciption.unsubscribe();
+    this.winnerCaseSubsciption.unsubscribe();
+  }
+
   ngOnInit(): void {
-    this._tictactoe.getTurnOf().subscribe((player) => (this.player = player));
+    this.playerSubsciption = this._tictactoe
+      .getTurnOf()
+      .subscribe((player) => (this.player = player));
+    this.winnerCaseSubsciption = this._tictactoe
+      .getWinnerCase()
+      .subscribe((line) => {
+        if (line) {
+          this.drawLine(line);
+          this.endOfGame();
+        }
+      });
   }
 
   level(): any {
@@ -65,12 +92,6 @@ export class AppComponent implements OnInit {
 
   caseClick(index: number): void {
     this._tictactoe.nextTic(this.player, index);
-    this._tictactoe.getWinnerCase().subscribe((line) => {
-      if (line) {
-        this.drawLine(line);
-        this.endOfGame();
-      }
-    });
   }
 
   endOfGame() {
@@ -80,15 +101,11 @@ export class AppComponent implements OnInit {
   }
 
   drawLine(line: string): void {
-    console.log('drawLine', line, this.animation);
-    // this.animation = !this.animation;
-    // this.start = 'start' + line;
-    // this.end = 'end' + line;
+    console.log('make animation here', line);
   }
 
-  reset(): void {
-    this._tictactoe.reset();
-    this.animation = false;
+  replay(): void {
+    this._tictactoe.replay();
     this.cases.forEach((element) => {
       element.reset();
     });

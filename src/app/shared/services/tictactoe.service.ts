@@ -43,6 +43,7 @@ export class TicTacToeService {
   }
 
   check(player: Players): void {
+    console.log('this.caseValues', this.caseValues);
     const played = this.caseValues
       .map((_case, index) => {
         if (_case === player) return index;
@@ -53,6 +54,7 @@ export class TicTacToeService {
     if (played.length > 2) {
       const line = this.includeWinner(played);
       if (line) {
+        console.log('winnerCase *** ');
         this.winnerCase$.next(line);
       }
     }
@@ -67,7 +69,7 @@ export class TicTacToeService {
     return false;
   }
 
-  reset(): void {
+  replay(): void {
     this.caseValues = [];
     this.turnOf$.next(Players.PLAYER_X);
     this.winnerCase$.next(null);

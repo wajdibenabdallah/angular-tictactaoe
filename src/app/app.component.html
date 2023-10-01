@@ -1,6 +1,6 @@
 <mat-card class="player">
   <mat-card-content>{{ player | name }}</mat-card-content>
-  <button mat-raised-button color="primary" (click)="reset()">Reset</button>
+  <button mat-raised-button color="primary" (click)="replay()">Replay</button>
 </mat-card>
 
 <div>
@@ -12,7 +12,6 @@
           appCase
           class="case"
           *ngFor="let i of level(); index as index"
-          [index]="index"
           [player]="player"
           (caseClick)="caseClick(index)"
         >
