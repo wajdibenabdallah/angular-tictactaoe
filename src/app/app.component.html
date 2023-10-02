@@ -6,7 +6,7 @@
 <div>
   <mat-card class="card">
     <mat-card-content>
-      <div class="line" [@line]="animation ? start : end"></div>
+      <div [ngStyle]="lineStyle" *ngIf="animation" @line></div>
       <mat-grid-list cols="3">
         <mat-grid-tile
           appCase

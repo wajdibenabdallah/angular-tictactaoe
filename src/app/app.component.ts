@@ -1,26 +1,15 @@
 import {
   Component,
-  OnChanges,
   OnDestroy,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { TicTacToeService } from './shared/services/tictactoe.service';
 import { CaseDirective } from './shared/directives/case.directive';
 import { Players } from './shared/enums/players';
-import { trigger } from '@angular/animations';
-import {
-  _012,
-  _036,
-  _048,
-  _147,
-  _246,
-  _258,
-  _345,
-  _678,
-} from './shared/constants/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { animations } from './shared/constants/animations';
 import { LEVEL } from './shared/constants/game';
 import { Subscription, take } from 'rxjs';
 
@@ -30,41 +19,31 @@ import { Subscription, take } from 'rxjs';
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('line', [
-      _012.from,
-      _012.to,
-      _012.transition,
-      _345.from,
-      _345.to,
-      _345.transition,
-      _678.from,
-      _678.to,
-      _678.transition,
-      _036.from,
-      _036.to,
-      _036.transition,
-      _147.from,
-      _147.to,
-      _147.transition,
-      _258.from,
-      _258.to,
-      _258.transition,
-      _048.from,
-      _048.to,
-      _048.transition,
-      _246.from,
-      _246.to,
-      _246.transition,
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('500ms', style({ transform: 'translateX(0)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 })),
+      ]),
     ]),
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChildren(CaseDirective) cases!: QueryList<CaseDirective>;
-  animation!: boolean;
+  animation: boolean = false;
   start!: string;
   end!: string;
   player!: Players;
   playerSubsciption!: Subscription;
   winnerCaseSubsciption!: Subscription;
+  lineStyle: any = {
+    height: '0.1rem',
+    'background-color': 'black',
+    position: 'fixed',
+    'z-index': 2,
+  };
 
   constructor(private _tictactoe: TicTacToeService) {}
   ngOnDestroy(): void {
@@ -101,11 +80,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   drawLine(line: string): void {
-    console.log('make animation here', line);
+    this.animation = true;
+    console.log({ line });
+    this.lineStyle = {
+      ...this.lineStyle,
+      ...animations[line].style,
+    };
   }
 
   replay(): void {
     this._tictactoe.replay();
+    this.animation = false;
     this.cases.forEach((element) => {
       element.reset();
     });
