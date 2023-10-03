@@ -36,10 +36,12 @@ export class CaseDirective {
 
   endOfGame(): void {
     this.case = true;
+    this.renderer.addClass(this.el.nativeElement, 'end');
   }
 
   reset(): void {
     this.case = false;
+    this.renderer.removeClass(this.el.nativeElement, 'end');
     this.renderer.setProperty(
       this.el.nativeElement.children[0],
       'innerHTML',

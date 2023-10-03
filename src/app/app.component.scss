@@ -1,4 +1,5 @@
 $case-default-color: #b6bbc069;
+$case-end-game-color: #00000069;
 
 .card {
   width: 500px;
@@ -11,7 +12,9 @@ $case-default-color: #b6bbc069;
   border: solid 1px;
   font-size: 150px;
 }
-
+.end {
+  background-color: $case-end-game-color;
+}
 .player {
   width: 200px;
   margin: auto;
