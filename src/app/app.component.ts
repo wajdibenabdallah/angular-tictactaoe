@@ -9,7 +9,7 @@ import { TicTacToeService } from './shared/services/tictactoe.service';
 import { CaseDirective } from './shared/directives/case.directive';
 import { Players } from './shared/enums/players';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { animations } from './shared/constants/animations';
+import { animations, lineStyle } from './shared/constants/animations';
 import { LEVEL } from './shared/constants/game';
 import { Subscription, take } from 'rxjs';
 
@@ -35,12 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   player!: Players;
   playerSubsciption!: Subscription;
   winnerCaseSubsciption!: Subscription;
-
-  lineStyle: any = {
-    'background-color': 'black',
-    position: 'fixed',
-    'z-index': 2,
-  };
+  lineStyle: any;
 
   constructor(private _tictactoe: TicTacToeService) {}
   ngOnDestroy(): void {
@@ -78,9 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   drawLine(line: string): void {
     this.animation = true;
-    console.log({ line });
     this.lineStyle = {
-      ...this.lineStyle,
+      ...lineStyle,
       ...animations[line].style,
     };
   }

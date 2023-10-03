@@ -1,3 +1,9 @@
+export const lineStyle: any = {
+  'background-color': 'black',
+  position: 'fixed',
+  'z-index': 2,
+};
+
 export const animations: Record<string, any> = {
   '012': {
     style: {
@@ -46,6 +52,7 @@ export const animations: Record<string, any> = {
       height: '0.1rem',
       margin: '15rem 2rem',
       transform: 'rotate(45deg)',
+      width: '25rem',
     },
   },
   '246': {
@@ -53,6 +60,7 @@ export const animations: Record<string, any> = {
       height: '0.1rem',
       margin: '15rem 2rem',
       transform: 'rotate(-45deg)',
+      width: '25rem',
     },
   },
 };

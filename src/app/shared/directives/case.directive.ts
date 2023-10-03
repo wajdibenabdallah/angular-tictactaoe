@@ -35,7 +35,6 @@ export class CaseDirective {
   }
 
   endOfGame(): void {
-    console.log('endOfGame');
     this.case = true;
   }
 
