@@ -6,18 +6,24 @@ export const animations: Record<string, any> = {
       margin: '5rem 2rem',
       width: '25rem',
     },
+    transformStyle: 'translateX(100%)',
+    transformAnimate: 'translateX(0%)',
   },
   '345': {
     style: {
       margin: '15rem 2rem',
       width: '25rem',
     },
+    transformStyle: 'translateX(100%)',
+    transformAnimate: 'translateX(0%)',
   },
   '678': {
     style: {
       margin: '25rem 2rem',
       width: '25rem',
     },
+    transformStyle: 'translateX(100%)',
+    transformAnimate: 'translateX(0%)',
   },
   '036': {
     style: {
@@ -25,20 +31,18 @@ export const animations: Record<string, any> = {
       transform: 'rotate(90deg)',
       'border-left': '25rem solid',
     },
+    transformStyle: 'translateY(100%)',
+    transformAnimate: 'translateY(0)',
   },
-};
-
-const _036 = {
-  from: state('start036', style({ transform: 'rotate(90deg)' })),
-  to: state(
-    'end036',
-    style({
-      margin: '15rem -7rem',
+  '147': {
+    style: {
+      margin: '14rem -7.5rem',
       transform: 'rotate(90deg)',
       'border-left': '25rem solid',
-    })
-  ),
-  transition: transition('start036 => end036', [animate('0.2s')]),
+    },
+    transformStyle: 'translateY(100%)',
+    transformAnimate: 'translateY(0%)',
+  },
 };
 
 const _147 = {

@@ -6,7 +6,14 @@
 <div>
   <mat-card class="card">
     <mat-card-content>
-      <div [ngStyle]="lineStyle" *ngIf="animation" @line></div>
+      <div
+        [ngStyle]="lineStyle"
+        *ngIf="animation"
+        [@line]="{
+          value: ':enter',
+          params: { transformStyle, transformAnimate }
+        }"
+      ></div>
       <mat-grid-list cols="3">
         <mat-grid-tile
           appCase

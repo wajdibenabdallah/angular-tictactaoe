@@ -20,13 +20,13 @@ import { Subscription, take } from 'rxjs';
   animations: [
     trigger('line', [
       transition(':enter', [
-        style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('500ms', style({ transform: 'translateX(0)', opacity: 1 })),
+        style({ transform: '{{transformStyle}}', opacity: 0 }),
+        animate(
+          '500ms',
+          style({ transform: '{{transformAnimate}}', opacity: 1 })
+        ),
       ]),
-      transition(':leave', [
-        style({ transform: 'translateX(0)', opacity: 1 }),
-        animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 })),
-      ]),
+      // transition(':leave', []),
     ]),
   ],
 })
@@ -38,6 +38,9 @@ export class AppComponent implements OnInit, OnDestroy {
   player!: Players;
   playerSubsciption!: Subscription;
   winnerCaseSubsciption!: Subscription;
+  transformStyle!: string;
+  transformAnimate!: string;
+
   lineStyle: any = {
     height: '0.1rem',
     'background-color': 'black',
@@ -86,6 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
       ...this.lineStyle,
       ...animations[line].style,
     };
+    this.transformStyle = animations[line].transformStyle;
+    this.transformAnimate = animations[line].transformAnimate;
   }
 
   replay(): void {
